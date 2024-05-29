@@ -40,19 +40,19 @@ namespace FriendFace
             Console.WriteLine("New user created. Show profile and save? \n1. Yes \n2. Back to create user \n3. Exit ");
 
             int input = Convert.ToInt32(Console.ReadLine());
-            bool isRunning = true;
+            bool running = true;
 
-            while (isRunning)
+            while (running)
             {
                 switch (input)
                 {
                     case 1:
                         AddNewUser(nameInput, ageInput, colorInput, program);
-                        isRunning = false;
+                        running = false;
                         break;
                     case 2:
                         CreateNewUser(program);
-                        isRunning = false;
+                        running = false;
                         break;
                     case 3:
                         Environment.Exit(1);
@@ -112,7 +112,8 @@ namespace FriendFace
             Console.WriteLine("What Would you like to do?");
             Console.WriteLine("1. Remove friend");
             Console.WriteLine("2. Back to your profile");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("3. Show extended options");
+            Console.WriteLine("4. Exit");
             FriendOptionsInput(currentUser, program, selectedFriend);
         }
 
@@ -133,7 +134,11 @@ namespace FriendFace
                         currentUser.ShowProfile(currentUser, program);
                         running = false;
                         break;
-                    case 3: Environment.Exit(2);
+                    case 3:
+                        Console.WriteLine("What would you like to do now?");
+                        program.DrawOptions(currentUser, program);
+                        break;
+                    case 4: Environment.Exit(2);
                         break;
                     default:
                         ErrorMessage();
@@ -144,12 +149,50 @@ namespace FriendFace
 
         public void DrawOptions(User currentUser, Main program)
         {
-
+            Console.WriteLine("1.Show your profile");
+            Console.WriteLine("2.View friends list");
+            Console.WriteLine("3.Add a new friend");
+            Console.WriteLine("4.Make a new user");
+            Console.WriteLine("5. Exit");
+            OptionsMenu(currentUser, program);
         }
 
         public void OptionsMenu(User currentUser, Main program)
         {
+            bool running = true;
+            int input = Convert.ToInt32(Console.ReadLine());
 
+            while (running)
+            {
+                switch (input)
+                {
+                    case 1:
+                        currentUser.ShowProfile(currentUser, program);
+                        running = false;
+                        break;
+                    case 2:
+                        currentUser.ShowFriends(currentUser, program);
+                        running = false;
+                        break;
+                    case 3:
+                        ViewAllUsers(currentUser, program);
+                        running = false;
+                        break;
+                    case 4:
+                        Run(program);
+                        running = false;
+                        break;
+                    case 5:
+                        Environment.Exit(2);
+                        break;
+                    default:
+                        ErrorMessage();
+                        break;
+                }
+            }
+           
+            Console.Clear();
+            Thread.Sleep(2000);
         }
 
         public void ErrorMessage()
